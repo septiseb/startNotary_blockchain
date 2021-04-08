@@ -5,15 +5,16 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.
 
 // StarNotary Contract declaration inheritance the ERC721 openzeppelin implementation
 contract StarNotary is ERC721Full {
-
     // Star data
     struct Star {
         string name;
     }
 
     // Implement Task 1 Add a name and symbol properties
-    constructor(string memory _name, string memory _symbol) public ERC721Full(_name,_symbol) {
-    }
+    constructor(string memory _name, string memory _symbol)
+        public
+        ERC721Full(_name, _symbol)
+    {}
 
     // name: Is a short name to your token
     // symbol: Is a short string like 'USD' -> 'American Dollar'
@@ -74,12 +75,14 @@ contract StarNotary is ERC721Full {
         //3. Get the owner of the two tokens (ownerOf(_tokenId1), ownerOf(_tokenId1)
         //4. Use _transferFrom function to exchange the tokens.
         require(
-            (ownerOf(_tokenId1) == msg.sender) ||
-                (ownerOf(_tokenId2) == msg.sender),
+            ownerOf(_tokenId1) == msg.sender ||
+                ownerOf(_tokenId2) == msg.sender,
             "The token does not match the owner"
         );
+        
         address ownerAddress = (ownerOf(_tokenId1));
         address senderAddress = (ownerOf(_tokenId2));
+
         _transferFrom(senderAddress, ownerAddress, _tokenId2);
         _transferFrom(ownerAddress, senderAddress, _tokenId1);
     }
@@ -91,7 +94,7 @@ contract StarNotary is ERC721Full {
             "The sender does not own the token"
         );
         address senderAddress = ownerOf(_tokenId);
-        _transferFrom(senderAddress, _to1, _tokenId);
+        transferFrom(senderAddress, _to1, _tokenId);
         //1. Check if the sender is the ownerOf(_tokenId)
         //2. Use the transferFrom(from, to, tokenId); function to transfer the Star
     }
